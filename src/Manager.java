@@ -13,7 +13,7 @@ public class Manager {
     public Manager(){
         frame= new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(width, height);
+        frame.setSize(width, height);//
         gui= new GUI();
         gui.setBounds(0,0,width,height);
         rocket= new Rocketship()
