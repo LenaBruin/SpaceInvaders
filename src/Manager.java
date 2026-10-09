@@ -5,7 +5,7 @@ public class Manager {
     final private int width= 1920, height= 1080;
     public static boolean running= false;
     JFrame frame;
-    GUI gui;
+    GUI gui;//
     JPanel gameCanvas;
     volatile Rocketship rocket;
     volatile PlasmaBeams Beam;
@@ -13,7 +13,7 @@ public class Manager {
     public Manager(){
         frame= new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(width, height);//
+        frame.setSize(width, height);
         gui= new GUI();
         gui.setBounds(0,0,width,height);
         rocket= new Rocketship()
