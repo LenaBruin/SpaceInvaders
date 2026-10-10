@@ -1,5 +1,6 @@
 package game;
 
+import utils.math.Meth;
 import utils.math.Pose;
 import utils.math.Vector;
 
@@ -38,6 +39,12 @@ public class Hitbox {
             corner.rotateBy(radians);
     }
 
+    public void setAngle(double radians){
+        double rotationAngle= Meth.normalize(radians- pose.getNormalizedAngle());
+        this.rotate(rotationAngle);
+        this.pose = new Pose(pose.getX(), pose.getY(), radians);
+    }
+
 
     public void setPosition(Pose pose){
         this.pose= pose;
@@ -46,6 +53,7 @@ public class Hitbox {
     public void setPosition(int x, int y){
         this.pose= new Pose(x, y, this.pose.getNormalizedAngle());
     }
+
 
 
 

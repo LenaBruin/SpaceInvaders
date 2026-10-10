@@ -21,15 +21,15 @@ public class Rocketship{
         try {
             rocket = ImageIO.read(new File(imagePath));
         } catch (IOException ignored){}
-        hitbox= new Hitbox(100, 200);
+        hitbox= new Hitbox(200, 100);
     }
 
     private final double rotationRadians= .03, movingPixels=5;
-    public double x, y;
-    public double radians;
+    public static double x, y;
+    public static double radians;
     public void move(int direction){
         x= x+ direction * movingPixels * Math.cos(getAngle());
-        y= y+ direction * movingPixels * Math.sin(getAngle());
+        y= y- direction * movingPixels * Math.sin(getAngle());
     }
     public double getAngle(){
         return getPosition().getAngle();
@@ -44,7 +44,8 @@ public class Rocketship{
         return new Pose(this.x, this.y, Meth.normalize(radians));
     }
     public void rotate(int direction){
-        radians-= direction*rotationRadians;
+        radians+= direction*rotationRadians;
+        radians= Meth.normalize(radians);
     }
 
     public void draw(Graphics g, java.awt.image.ImageObserver observer) {
@@ -54,9 +55,10 @@ public class Rocketship{
             int centerX = (int) x + (rocket.getWidth(null) / 2);
             int centerY = (int) y + (rocket.getHeight(null) / 2);
 
-            g2d.rotate(radians+ Math.PI/2, centerX, centerY);
+            double screenRotation = Math.PI/2 - radians;
+            g2d.rotate(screenRotation, centerX, centerY);
             g2d.drawImage(rocket, (int) x, (int) y, observer);
-            g2d.rotate(-(radians+Math.PI/2), centerX, centerY);
+            g2d.rotate(-screenRotation, centerX, centerY);
         }
     }
     public Rocketship setPosition(int x, int y, double radians){
@@ -74,6 +76,8 @@ public class Rocketship{
                 else
                     rotate(key.direction);
         keys.update();
+        hitbox.setAngle(getAngle());
+
 
     }
 

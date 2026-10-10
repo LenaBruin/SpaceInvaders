@@ -1,5 +1,7 @@
 package game;
 
+import game_objects.Rocketship;
+import utils.math.Vector;
 import utils.wrappers.ElapsedTime;
 
 public class Main{
@@ -18,8 +20,9 @@ public static void main(String[] args){
                     timer.reset();
                 }
             }
-            System.out.println(Manager.asteroidTimer.getMilliseconds());
-
+            for(Vector corner: Rocketship.hitbox.corners)
+                System.out.println(corner.getXComponent()+" "+ corner.getYComponent());
+            System.out.println("\n\n\n");
             }
     }
 }

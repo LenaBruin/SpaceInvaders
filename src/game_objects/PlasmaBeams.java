@@ -1,5 +1,6 @@
 package game_objects;
 
+import utils.math.Meth;
 import utils.math.Pose;
 import utils.wrappers.ElapsedTime;
 
@@ -25,7 +26,7 @@ public class PlasmaBeams {
 
         timer= new ElapsedTime();
         hitbox= new Hitbox(100, 100);
-        this.pose= pose;
+        this.pose= new Pose(pose.getX(), pose.getY(), - pose.getNormalizedAngle());
         try {
             Beam = ImageIO.read(new File(imagePath));
         } catch (IOException ignored){}
@@ -61,9 +62,10 @@ public class PlasmaBeams {
             int centerX = (int) pose.getX() + (Beam.getWidth(null) / 2);
             int centerY = (int) pose.getY() + (Beam.getHeight(null) / 2);
 
-            g2d.rotate(pose.getNormalizedAngle()+ Math.PI/2, centerX, centerY);
+            double screenRotation= -Meth.normalize(-pose.getNormalizedAngle()- Math.PI/2);
+            g2d.rotate(screenRotation, centerX, centerY);
             g2d.drawImage(Beam, (int) pose.getX(), (int) pose.getY(), observer);
-            g2d.rotate(-(pose.getNormalizedAngle()+Math.PI/2), centerX, centerY);
+            g2d.rotate(-screenRotation, centerX, centerY);
         }
     }
     public PlasmaBeams setPosition(int x, int y, double radians){
@@ -75,6 +77,7 @@ public class PlasmaBeams {
     public static List<PlasmaBeams> beams= new LinkedList<>();
     public static void spawnBeam(Rocketship rocker){
         beams.add(new PlasmaBeams(rocker.getPosition()));
+        hitboxes.add(beams.getLast().hitbox);
     }
 
     public static void drawAll(Graphics g, ImageObserver observer){

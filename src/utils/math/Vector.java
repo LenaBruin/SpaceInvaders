@@ -43,12 +43,13 @@ public class Vector {
     public double getTheta(){
         return this.theta;
     }
-    public Vector rotateBy(double rad){
+    public void rotateBy(double rad){
 
-        double x= Math.cos(rad) * getXComponent() - Math.sin(rad) * getYComponent();
-        double y= Math.sin(rad) * getXComponent() + Math.cos(rad) * getYComponent();
-
-        return new Vector(x, y, Type.CARTESIAN);
+        double x = xComponent, y = yComponent;
+        xComponent = Math.cos(rad) * x - Math.sin(rad) * y;
+        yComponent = Math.sin(rad) * x + Math.cos(rad) * y;
+        theta = Math.atan2(yComponent, xComponent);
+        magnitude = Math.hypot(xComponent, yComponent);
     }
 
 }
