@@ -68,11 +68,22 @@ public class Manager {
 
     }
 
+    public void checkRocketCollisions(){
+        for(Asteroids a: Asteroids.asteroids){
+            boolean collision= Rocketship.hitbox.collidesWith(a.hitbox);
+            if(collision && !a.rocketCollision)
+                Rocketship.health-= a.rocketDamage;
+
+            a.rocketCollision= collision;
+        }
+    }
     public void update(){
         rocket.update();
         frame.repaint();
         PlasmaBeams.update();
         Asteroids.update();
+        checkRocketCollisions();
+
 
     }
 

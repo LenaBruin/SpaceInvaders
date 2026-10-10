@@ -15,13 +15,14 @@ public class Rocketship{
     String imagePath="src/game_objects/models/rocketship67.png";
     Image rocket;
     public static Hitbox hitbox;
+    public static double health= 100;
     public Rocketship(){
 
         keys= new Key();
         try {
             rocket = ImageIO.read(new File(imagePath));
         } catch (IOException ignored){}
-        hitbox= new Hitbox(200, 100);
+        hitbox= new Hitbox(316, 144);
     }
 
     private final double rotationRadians= .03, movingPixels=5;
@@ -76,7 +77,7 @@ public class Rocketship{
                 else
                     rotate(key.direction);
         keys.update();
-        hitbox.setAngle(getAngle());
+        hitbox.setPosition(this.getPosition());
 
 
     }

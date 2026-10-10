@@ -28,6 +28,9 @@ public class Vector {
         }
         this.type= type;
     }
+    public Vector(double a, double b){
+        this(a, b, Type.CARTESIAN);
+    }
 
 
     public double getXComponent(){
@@ -50,6 +53,9 @@ public class Vector {
         yComponent = Math.sin(rad) * x + Math.cos(rad) * y;
         theta = Math.atan2(yComponent, xComponent);
         magnitude = Math.hypot(xComponent, yComponent);
+    }
+    public double dot(Vector other){
+        return xComponent * other.xComponent + yComponent * other.yComponent;
     }
 
 }

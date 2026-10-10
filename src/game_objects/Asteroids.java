@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 
 public class Asteroids {
@@ -21,8 +22,10 @@ public class Asteroids {
     private static final int width = 1920, height = 1080;
     private static final int spawnMargin = 100;
     private static final int despawnMargin = 300;
-    public static List<Hitbox> hitboxes= new LinkedList<>();
+    public static List<Hitbox> hitboxes= new CopyOnWriteArrayList<>();
     public Hitbox hitbox;
+    public boolean rocketCollision= false;
+    public double rocketDamage= 35;
     public Asteroids(){
         int side = random.nextInt(4);
         double spread = Math.PI / 3;
@@ -48,13 +51,22 @@ public class Asteroids {
         } catch (IOException ignored) {}
     }
 
+    public boolean collidesWithBeam(){
+        for(PlasmaBeams beam: PlasmaBeams.beams){
+            if(beam.hitbox.collidesWith(this.hitbox))
+                return true;
+        }
+        return false;
+    }
     public static void update(){
         asteroids.removeIf(a ->
                 a.getX() < -despawnMargin || a.getY() < -despawnMargin ||
-                        a.getX() > width + despawnMargin || a.getY() > height + despawnMargin);
+                        a.getX() > width + despawnMargin || a.getY() > height + despawnMargin
+                        || a.collidesWithBeam());
         for (Asteroids asteroid : asteroids) {
             asteroid.move(1);
             asteroid.hitbox.setPosition(asteroid.getPosition());
+
 
         }
     }
@@ -88,7 +100,8 @@ public class Asteroids {
         return this.pose.getY();
     }
     private int movingPixels= 4;
-    public static List<Asteroids> asteroids= new LinkedList<>();
+    public static List<Asteroids> asteroids= new CopyOnWriteArrayList<>();
+
 
     public static void drawAll(Graphics g, ImageObserver o){
         for(Asteroids asteroid: asteroids)

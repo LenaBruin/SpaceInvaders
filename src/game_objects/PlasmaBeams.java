@@ -25,7 +25,7 @@ public class PlasmaBeams {
     public PlasmaBeams(Pose pose){
 
         timer= new ElapsedTime();
-        hitbox= new Hitbox(100, 100);
+        hitbox= new Hitbox(80, 141);
         this.pose= new Pose(pose.getX(), pose.getY(), - pose.getNormalizedAngle());
         try {
             Beam = ImageIO.read(new File(imagePath));

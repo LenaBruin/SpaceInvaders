@@ -1,5 +1,6 @@
 package game;
 
+import game_objects.Asteroids;
 import game_objects.Rocketship;
 import utils.math.Vector;
 import utils.wrappers.ElapsedTime;
@@ -20,9 +21,19 @@ public static void main(String[] args){
                     timer.reset();
                 }
             }
-            for(Vector corner: Rocketship.hitbox.corners)
-                System.out.println(corner.getXComponent()+" "+ corner.getYComponent());
-            System.out.println("\n\n\n");
+//            for(Vector corner: Rocketship.hitbox.corners)
+//                System.out.println(corner.getXComponent()+" "+ corner.getYComponent());
+//            System.out.println("\n\n\n");
+            boolean collides= false;
+            for(Asteroids a: Asteroids.asteroids)
+                if(Rocketship.hitbox.collidesWith(a.hitbox))
+                    collides= true;
+            System.out.println(Rocketship.health);
+            if(Rocketship.health<= 0) {
+                //break;
+                //implement you lose screen
+            }
+
             }
     }
 }
