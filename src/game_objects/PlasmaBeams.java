@@ -22,10 +22,11 @@ public class PlasmaBeams {
     ElapsedTime timer;
     public static List<Hitbox> hitboxes= new LinkedList<>();
     public Hitbox hitbox;
+    private final int WIDTH= 80, HEIGHT= 40;
     public PlasmaBeams(Pose pose){
 
         timer= new ElapsedTime();
-        hitbox= new Hitbox(80, 141);
+        hitbox= new Hitbox(WIDTH, HEIGHT);
         this.pose= new Pose(pose.getX(), pose.getY(), - pose.getNormalizedAngle());
         try {
             Beam = ImageIO.read(new File(imagePath));
@@ -59,12 +60,12 @@ public class PlasmaBeams {
         if (Beam != null) {
             Graphics2D g2d = (Graphics2D) g;
 
-            int centerX = (int) pose.getX() + (Beam.getWidth(null) / 2);
-            int centerY = (int) pose.getY() + (Beam.getHeight(null) / 2);
+            int centerX = (int) pose.getX();
+            int centerY = (int) pose.getY();
 
             double screenRotation= -Meth.normalize(-pose.getNormalizedAngle()- Math.PI/2);
             g2d.rotate(screenRotation, centerX, centerY);
-            g2d.drawImage(Beam, (int) pose.getX(), (int) pose.getY(), observer);
+            g2d.drawImage(Beam, (int) pose.getX()- Beam.getWidth(observer)/2, (int) pose.getY()- Beam.getHeight(observer)/2, observer);
             g2d.rotate(-screenRotation, centerX, centerY);
         }
     }

@@ -16,13 +16,14 @@ public class Rocketship{
     Image rocket;
     public static Hitbox hitbox;
     public static double health= 100;
+    private final int WIDTH= 316, HEIGHT= 120;
     public Rocketship(){
 
         keys= new Key();
         try {
             rocket = ImageIO.read(new File(imagePath));
         } catch (IOException ignored){}
-        hitbox= new Hitbox(316, 144);
+        hitbox= new Hitbox(WIDTH, HEIGHT);
     }
 
     private final double rotationRadians= .03, movingPixels=5;
@@ -42,7 +43,7 @@ public class Rocketship{
         return getPosition().getY();
     }
     public Pose getPosition(){
-        return new Pose(this.x, this.y, Meth.normalize(radians));
+        return new Pose(hitbox.getPosition().getX(), hitbox.getPosition().getY(), Meth.normalize(radians));
     }
     public void rotate(int direction){
         radians+= direction*rotationRadians;
@@ -77,7 +78,11 @@ public class Rocketship{
                 else
                     rotate(key.direction);
         keys.update();
-        hitbox.setPosition(this.getPosition());
+       // hitbox.setPosition(this.getPosition());
+        if(rocket != null)
+            hitbox.setPosition(new Pose(x + rocket.getWidth(null) / 2.0,
+                    y + rocket.getHeight(null) / 2.0,
+                    -radians));
 
 
     }

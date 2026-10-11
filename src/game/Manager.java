@@ -51,6 +51,11 @@ public class Manager {
                     }
                     PlasmaBeams.drawAll(g, this);
                     Asteroids.drawAll(g, this);
+                    drawHitbox(g, Rocketship.hitbox);
+                    for(Asteroids a : Asteroids.asteroids)     // opțional: și hitbox-urile asteroizilor
+                        drawHitbox(g, a.hitbox);
+                    for(PlasmaBeams a : PlasmaBeams.beams)     // opțional: și hitbox-urile asteroizilor
+                        drawHitbox(g, a.hitbox);
                 }
              //   Beam.draw(g, this);
             }
@@ -85,6 +90,15 @@ public class Manager {
         checkRocketCollisions();
 
 
+    }
+    private void drawHitbox(Graphics g, Hitbox h){
+        int[] xs = new int[4], ys = new int[4];
+        for(int i = 0; i < 4; i++){
+            xs[i] = (int)(h.pose.getX() + h.corners.get(i).getXComponent());
+            ys[i] = (int)(h.pose.getY() + h.corners.get(i).getYComponent());
+        }
+        g.setColor(Color.RED);
+        g.drawPolygon(xs, ys, 4);
     }
 
 }

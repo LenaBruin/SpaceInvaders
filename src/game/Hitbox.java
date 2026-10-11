@@ -53,6 +53,9 @@ public class Hitbox {
 
 
     }
+    public Pose getPosition(){
+        return this.pose;
+    }
 
     public void setPosition(int x, int y){
         this.pose= new Pose(x, y, this.pose.getNormalizedAngle());

@@ -26,10 +26,11 @@ public class Asteroids {
     public Hitbox hitbox;
     public boolean rocketCollision= false;
     public double rocketDamage= 35;
+    private final int WIDTH= 120, HEIGHT= 120;
     public Asteroids(){
         int side = random.nextInt(4);
         double spread = Math.PI / 3;
-        hitbox= new Hitbox(150, 150);
+        hitbox= new Hitbox(WIDTH, HEIGHT);
         hitboxes.add(hitbox);
         double offset = (random.nextDouble() * 2 - 1) * spread;
         switch (side){
@@ -65,8 +66,9 @@ public class Asteroids {
                         || a.collidesWithBeam());
         for (Asteroids asteroid : asteroids) {
             asteroid.move(1);
-            asteroid.hitbox.setPosition(asteroid.getPosition());
-
+            asteroid.hitbox.setPosition(new Pose(asteroid.getX() + asteroid.asteroid.getWidth(null) / 2.0,
+                    asteroid.getY() + asteroid.asteroid.getHeight(null) / 2.0,
+                    asteroid.pose.getNormalizedAngle()));
 
         }
     }
