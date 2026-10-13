@@ -25,7 +25,7 @@ public class Asteroids {
     public static List<Hitbox> hitboxes= new CopyOnWriteArrayList<>();
     public Hitbox hitbox;
     public boolean rocketCollision= false;
-    public double rocketDamage= 35;
+    public static double rocketDamage= 35;
     private final int WIDTH= 120, HEIGHT= 120;
     public Asteroids(){
         int side = random.nextInt(4);

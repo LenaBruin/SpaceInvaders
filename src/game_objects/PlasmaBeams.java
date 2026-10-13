@@ -35,8 +35,8 @@ public class PlasmaBeams {
 
     private final double rotationRadians= .01, movingPixels=8;
     public void move(int direction){
-        double x= pose.getX()+ direction * movingPixels * Math.cos(getAngle());
-        double y= pose.getY()+ direction * movingPixels * Math.sin(getAngle());
+        double x= pose.getX()+ direction * Upgrades.beamSpeed * Math.cos(getAngle());
+        double y= pose.getY()+ direction * Upgrades.beamSpeed * Math.sin(getAngle());
         this.pose= new Pose(x, y, this.pose.getNormalizedAngle());
     }
     public double getAngle(){
