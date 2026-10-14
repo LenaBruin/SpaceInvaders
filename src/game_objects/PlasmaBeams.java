@@ -1,5 +1,6 @@
 package game_objects;
 
+import game.Upgrades;
 import utils.math.Meth;
 import utils.math.Pose;
 import utils.wrappers.ElapsedTime;
@@ -23,6 +24,7 @@ public class PlasmaBeams {
     public static List<Hitbox> hitboxes= new LinkedList<>();
     public Hitbox hitbox;
     private final int WIDTH= 80, HEIGHT= 40;
+    public static double damage= 33;
     public PlasmaBeams(Pose pose){
 
         timer= new ElapsedTime();

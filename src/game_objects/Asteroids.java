@@ -1,6 +1,7 @@
 package game_objects;
 
 import game.Hitbox;
+import game.Upgrades;
 import utils.math.Pose;
 
 import javax.imageio.ImageIO;
@@ -8,6 +9,7 @@ import java.awt.*;
 import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -24,6 +26,7 @@ public class Asteroids {
     private static final int despawnMargin = 300;
     public static List<Hitbox> hitboxes= new CopyOnWriteArrayList<>();
     public Hitbox hitbox;
+    public double health= 100;
     public boolean rocketCollision= false;
     public static double rocketDamage= 35;
     private final int WIDTH= 120, HEIGHT= 120;
@@ -59,18 +62,40 @@ public class Asteroids {
         }
         return false;
     }
+
+    private static void handleBeamCollisions() {
+        Iterator<PlasmaBeams> beamIt = PlasmaBeams.beams.iterator();
+        while (beamIt.hasNext()) {
+            PlasmaBeams beam = beamIt.next();
+            for (Asteroids a : asteroids) {
+                if (a.hitbox.collidesWith(beam.hitbox)) {
+                    a.takeDamage();
+                    beamIt.remove();
+                    if (a.health <= 0)
+                        Upgrades.moneyIncrease();
+                    break;
+                }
+            }
+        }
+    }
+
     public static void update(){
-        asteroids.removeIf(a ->
-                a.getX() < -despawnMargin || a.getY() < -despawnMargin ||
-                        a.getX() > width + despawnMargin || a.getY() > height + despawnMargin
-                        || a.collidesWithBeam());
+
         for (Asteroids asteroid : asteroids) {
             asteroid.move(1);
             asteroid.hitbox.setPosition(new Pose(asteroid.getX() + asteroid.asteroid.getWidth(null) / 2.0,
                     asteroid.getY() + asteroid.asteroid.getHeight(null) / 2.0,
                     asteroid.pose.getNormalizedAngle()));
 
+
+
+
         }
+        handleBeamCollisions();
+        asteroids.removeIf(a ->
+                a.getX() < -despawnMargin || a.getY() < -despawnMargin ||
+                        a.getX() > width + despawnMargin || a.getY() > height + despawnMargin
+                        || a.health<= 0);
     }
     public Pose getPosition(){
         return this.pose;
@@ -109,7 +134,12 @@ public class Asteroids {
         for(Asteroids asteroid: asteroids)
             asteroid.draw(g, o);
     }
+
     public static void spawnAsteroid(){
         asteroids.add(new Asteroids());
+    }
+
+    public void takeDamage(){
+        this.health-= PlasmaBeams.damage;
     }
 }

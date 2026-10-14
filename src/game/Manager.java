@@ -10,7 +10,7 @@ import java.awt.*;
 
 public class Manager {
     final private int width= 1920, height= 1080;
-    public static boolean running= false;
+    public static volatile boolean running= false;
     JFrame frame;
     GUI gui;
     JPanel gameCanvas;
@@ -52,9 +52,9 @@ public class Manager {
                     PlasmaBeams.drawAll(g, this);
                     Asteroids.drawAll(g, this);
                     drawHitbox(g, Rocketship.hitbox);
-                    for(Asteroids a : Asteroids.asteroids)     // opțional: și hitbox-urile asteroizilor
+                    for(Asteroids a : Asteroids.asteroids)
                         drawHitbox(g, a.hitbox);
-                    for(PlasmaBeams a : PlasmaBeams.beams)     // opțional: și hitbox-urile asteroizilor
+                    for(PlasmaBeams a : PlasmaBeams.beams)
                         drawHitbox(g, a.hitbox);
                 }
              //   Beam.draw(g, this);
@@ -100,5 +100,6 @@ public class Manager {
         g.setColor(Color.RED);
         g.drawPolygon(xs, ys, 4);
     }
+
 
 }

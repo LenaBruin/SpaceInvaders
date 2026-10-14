@@ -3,8 +3,6 @@ package game;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import game_objects.Rocketship;
-
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -41,6 +39,10 @@ public class GUI extends JPanel {
         startButton= new JButton("Start Game");
         startButton.setBounds(810, 515, 200, 50);
         gameLayout.add(startButton);
+        healthUpgradeButton.setFocusable(false);
+        rocketDamageUpgradeButton.setFocusable(false);
+        beamSpeedUpgradeButton.setFocusable(false);
+        startButton.setFocusable(false);
         startButton.addActionListener(e->{
             startButton.setVisible(false);
             Manager.running= true;
@@ -52,15 +54,15 @@ public class GUI extends JPanel {
         add(startButton);
 
         healthUpgradeButton.addActionListener(health->{
-            game_objects.Upgrades.UpgradeHealth();
+            Upgrades.upgradeHealth();
         });
         
         rocketDamageUpgradeButton.addActionListener(damage->{
-            game_objects.Upgrades.UpgradeRocketDamage();
+            Upgrades.upgradeRocketDamage();
         });
 
         beamSpeedUpgradeButton.addActionListener(speed->{
-            game_objects.Upgrades.UpgradeBeamSpeed();
+            Upgrades.upgradeBeamSpeed();
         });
 
     }

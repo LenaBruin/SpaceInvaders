@@ -19,6 +19,9 @@ public static void main(String[] args){
                 if(timer.getMilliseconds()> 10) {
                     manager.update();
                     timer.reset();
+                    for(Asteroids a: Asteroids.asteroids)
+                        System.out.print(a.health + " ");
+                    System.out.println();
                 }
             }
 //            for(Vector corner: Rocketship.hitbox.corners)
@@ -28,7 +31,7 @@ public static void main(String[] args){
             for(Asteroids a: Asteroids.asteroids)
                 if(Rocketship.hitbox.collidesWith(a.hitbox))
                     collides= true;
-            System.out.println(Rocketship.health);
+            //System.out.println(Rocketship.health);
             if(Rocketship.health<= 0) {
                 //break;
                 //implement you lose screen
