@@ -27,6 +27,7 @@ public class Hitbox {
 
         pose= new Pose();
     }
+    @Deprecated
     public Hitbox(int length, int height, Pose pose){
         this(length, height);
         this.pose= pose;
@@ -39,6 +40,7 @@ public class Hitbox {
             corner.rotateBy(radians);
     }
 
+    @Deprecated
     public void setAngle(double radians){
         double rotationAngle= Meth.normalize(radians- pose.getNormalizedAngle());
         this.rotate(rotationAngle);
@@ -57,9 +59,7 @@ public class Hitbox {
         return this.pose;
     }
 
-    public void setPosition(int x, int y){
-        this.pose= new Pose(x, y, this.pose.getNormalizedAngle());
-    }
+
 
     public boolean collidesWith(Hitbox other){
         Vector[] axis={
@@ -85,8 +85,8 @@ public class Hitbox {
         Vector edge= new Vector(one.getXComponent()- two.getXComponent(),
                 one.getYComponent()- two.getYComponent(),
                 Vector.Type.CARTESIAN);
-        double lenght= Math.hypot(edge.getXComponent(), edge.getYComponent());
-        return new Vector(edge.getXComponent()/lenght, edge.getYComponent()/lenght);
+        double length= Math.hypot(edge.getXComponent(), edge.getYComponent());
+        return new Vector(edge.getXComponent()/length, edge.getYComponent()/length);
     }
 
     public double[] shadow(Vector axis){

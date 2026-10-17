@@ -28,13 +28,16 @@ public class Pose {
     public double getNormalizedAngle(){
         return Meth.normalize(this.angle);
     }
-    public void setX(double x){
+    public Pose setX(double x){
         this.x= x;
+        return this;
     }
-    public void setY(double y){
+    public Pose setY(double y){
         this.y= y;
+        return this;
     }
-    public void setAngle(double radians){
+    public Pose setAngle(double radians){
         this.angle= radians;
+        return this;
     }
 }

@@ -1,5 +1,6 @@
 package game_objects;
 
+import utils.wrappers.ElapsedTime;
 import utils.wrappers.Key;
 import utils.math.Meth;
 import utils.math.Pose;
@@ -16,29 +17,35 @@ public class Rocketship{
     Image rocket;
     public static Hitbox hitbox;
     public static double health= 100;
-    private final int WIDTH= 316, HEIGHT= 120;
+    public static int maxHealth= 100;
+
     public Rocketship(){
 
         keys= new Key();
         try {
             rocket = ImageIO.read(new File(imagePath));
         } catch (IOException ignored){}
+        int WIDTH = 316;
+        int HEIGHT = 120;
         hitbox= new Hitbox(WIDTH, HEIGHT);
+        regenerationTimer= new ElapsedTime();
     }
 
-    private final double rotationRadians= .03, movingPixels=5;
     public static double x, y;
     public static double radians;
     public void move(int direction){
+        double movingPixels = 5;
         x= x+ direction * movingPixels * Math.cos(getAngle());
         y= y- direction * movingPixels * Math.sin(getAngle());
     }
     public double getAngle(){
         return getPosition().getAngle();
     }
+    @Deprecated
     public double getX(){
         return getPosition().getX();
     }
+    @Deprecated
     public double getY(){
         return getPosition().getY();
     }
@@ -46,7 +53,8 @@ public class Rocketship{
         return new Pose(hitbox.getPosition().getX(), hitbox.getPosition().getY(), Meth.normalize(radians));
     }
     public void rotate(int direction){
-        radians+= direction*rotationRadians;
+        double rotationRadians = .03;
+        radians+= direction* rotationRadians;
         radians= Meth.normalize(radians);
     }
 
@@ -64,12 +72,13 @@ public class Rocketship{
         }
     }
     public Rocketship setPosition(int x, int y, double radians){
-        this.x= x;
-        this.y= y;
-        this.radians= radians;
+        Rocketship.x = x;
+        Rocketship.y = y;
+        Rocketship.radians = radians;
         return this;
     }
 
+    ElapsedTime regenerationTimer;
     public void update(){
         for(Key.Keys key: Key.Keys.values())
             if(keys.isPressed(key))
@@ -84,8 +93,15 @@ public class Rocketship{
                     y + rocket.getHeight(null) / 2.0,
                     -radians));
 
+        if(regenerationTimer.getMilliseconds()> regenerationTime){
+            health= Math.min(health+ regenerationHealth, maxHealth);
+            regenerationTimer.reset();
+        }
+
 
     }
+    public static double regenerationTime= 1000;
+    public static double regenerationHealth= 3;
 
 
 

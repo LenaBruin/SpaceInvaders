@@ -10,7 +10,6 @@ import java.awt.image.ImageObserver;
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -29,10 +28,12 @@ public class Asteroids {
     public double health= 100;
     public boolean rocketCollision= false;
     public static double rocketDamage= 35;
-    private final int WIDTH= 120, HEIGHT= 120;
+
     public Asteroids(){
         int side = random.nextInt(4);
         double spread = Math.PI / 3;
+        int WIDTH = 120;
+        int HEIGHT = 120;
         hitbox= new Hitbox(WIDTH, HEIGHT);
         hitboxes.add(hitbox);
         double offset = (random.nextDouble() * 2 - 1) * spread;
@@ -55,6 +56,7 @@ public class Asteroids {
         } catch (IOException ignored) {}
     }
 
+    @Deprecated
     public boolean collidesWithBeam(){
         for(PlasmaBeams beam: PlasmaBeams.beams){
             if(beam.hitbox.collidesWith(this.hitbox))
@@ -97,10 +99,12 @@ public class Asteroids {
                         a.getX() > width + despawnMargin || a.getY() > height + despawnMargin
                         || a.health<= 0);
     }
+    @Deprecated
     public Pose getPosition(){
         return this.pose;
     }
     public void move(int direction){
+        int movingPixels = 4;
         double x= pose.getX()+ direction * movingPixels * Math.cos(getAngle());
         double y= pose.getY()+ direction * movingPixels * Math.sin(getAngle());
         this.pose= new Pose(x, y, this.pose.getNormalizedAngle());
@@ -126,7 +130,7 @@ public class Asteroids {
     public double getY(){
         return this.pose.getY();
     }
-    private int movingPixels= 4;
+
     public static List<Asteroids> asteroids= new CopyOnWriteArrayList<>();
 
 

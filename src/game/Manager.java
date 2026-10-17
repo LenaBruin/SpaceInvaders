@@ -7,29 +7,32 @@ import utils.wrappers.ElapsedTime;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.util.Arrays;
 
 public class Manager {
-    final private int width= 1920, height= 1080;
     public static volatile boolean running= false;
     JFrame frame;
     GUI gui;
     JPanel gameCanvas;
     public volatile Rocketship rocket;
-    volatile PlasmaBeams Beam;
     volatile ElapsedTime beamTimer;
     public static volatile ElapsedTime asteroidTimer;
     public static double timer;
-    public double beamInterval;
     public Manager(){
         beamTimer= new ElapsedTime();
         asteroidTimer= new ElapsedTime();
         frame= new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(width, height);
+        frame.setResizable(false);
+        int width = 1920;
+        int height = 1080;
+        frame.getContentPane().setPreferredSize(new Dimension(width, height));
+        frame.pack();
         gui= new GUI();
-        gui.setBounds(0,0,width,height);
+        gui.setBounds(0,0, width, height);
         rocket= new Rocketship()
-                .setPosition(width/2, height/2, 0);
+                .setPosition(width /2, height /2, 0);
 
         frame.setFocusable(true);
         frame.setLayout(null);
@@ -39,7 +42,7 @@ public class Manager {
                 super.paintComponent(g);
                 if(running) {
                     rocket.draw(g, this);
-                    if(beamTimer.getNanoseconds()> 5e8) {
+                    if(beamTimer.getMilliseconds()> PlasmaBeams.spawnSpeed) {
                         PlasmaBeams.spawnBeam(rocket);
                         beamTimer.reset();
                         timer= System.nanoTime();
@@ -56,6 +59,7 @@ public class Manager {
                         drawHitbox(g, a.hitbox);
                     for(PlasmaBeams a : PlasmaBeams.beams)
                         drawHitbox(g, a.hitbox);
+
                 }
              //   Beam.draw(g, this);
             }
@@ -70,6 +74,8 @@ public class Manager {
         frame.setVisible(true);
 
 
+        if (Boolean.getBoolean("autostart"))
+            gui.startButton.doClick();
 
     }
 
@@ -77,17 +83,36 @@ public class Manager {
         for(Asteroids a: Asteroids.asteroids){
             boolean collision= Rocketship.hitbox.collidesWith(a.hitbox);
             if(collision && !a.rocketCollision)
-                Rocketship.health-= a.rocketDamage;
+                Rocketship.health-= Asteroids.rocketDamage;
 
             a.rocketCollision= collision;
         }
     }
+    volatile boolean threadRunning= false;
+
     public void update(){
         rocket.update();
         frame.repaint();
         PlasmaBeams.update();
-        Asteroids.update();
-        checkRocketCollisions();
+//Asteroids.update();
+        if(!threadRunning)
+            new Thread(()->{
+                threadRunning= true;
+                while (threadRunning) {
+
+                    try {
+                        checkRocketCollisions();
+
+                        Asteroids.update();
+                        try {
+                            Thread.sleep(10);
+                        } catch (InterruptedException e) {
+                            System.out.println(Arrays.toString(e.getStackTrace()));
+                        }
+                    } catch (Exception ignored) {}
+
+                }
+            }).start();
 
 
     }
@@ -99,6 +124,24 @@ public class Manager {
         }
         g.setColor(Color.RED);
         g.drawPolygon(xs, ys, 4);
+    }
+
+    public static void restart(){
+        try {
+            String java = System.getProperty("java.home") + "/bin/java";
+            String classPath = System.getProperty("java.class.path");
+            new ProcessBuilder(java, "-Dautostart=true", "-cp", classPath, "game.Main")
+                    .inheritIO()
+                    .start();
+        } catch (IOException ignored) {}
+        System.exit(0);
+    }
+    public void showLoseScreen(){
+        if(Rocketship.health > 0) return;
+        SwingUtilities.invokeLater(() -> {
+            gui.restartButton.setVisible(true);
+            gui.loseLabel.setVisible(true);
+        });
     }
 
 

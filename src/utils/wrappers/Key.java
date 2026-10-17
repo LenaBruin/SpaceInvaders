@@ -7,7 +7,7 @@ import java.util.EnumMap;
 public class Key extends KeyAdapter {
     public enum Keys{
         ARROW_UP(1), ARROW_DOWN(-1), ARROW_LEFT(1), ARROW_RIGHT(-1);
-        public int direction;
+        public final int direction;
         Keys(int direction){
             this.direction= direction;
         }

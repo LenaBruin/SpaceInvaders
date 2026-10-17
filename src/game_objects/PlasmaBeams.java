@@ -19,15 +19,15 @@ public class PlasmaBeams {
     String imagePath="src/game_objects/models/PlasmaBeam.png";
     Image Beam;
     Pose pose;
-    Rocketship rocket;
     ElapsedTime timer;
     public static List<Hitbox> hitboxes= new LinkedList<>();
     public Hitbox hitbox;
-    private final int WIDTH= 80, HEIGHT= 40;
     public static double damage= 33;
     public PlasmaBeams(Pose pose){
 
         timer= new ElapsedTime();
+        int WIDTH = 80;
+        int HEIGHT = 40;
         hitbox= new Hitbox(WIDTH, HEIGHT);
         this.pose= new Pose(pose.getX(), pose.getY(), - pose.getNormalizedAngle());
         try {
@@ -35,7 +35,6 @@ public class PlasmaBeams {
         } catch (IOException ignored){}
     }
 
-    private final double rotationRadians= .01, movingPixels=8;
     public void move(int direction){
         double x= pose.getX()+ direction * Upgrades.beamSpeed * Math.cos(getAngle());
         double y= pose.getY()+ direction * Upgrades.beamSpeed * Math.sin(getAngle());
@@ -53,10 +52,8 @@ public class PlasmaBeams {
     public Pose getPosition(){
         return this.pose;
     }
-    @Deprecated
-    public void rotate(int direction){
-        //radians-= direction*rotationRadians;
-    }
+
+
 
     public void draw(Graphics g, java.awt.image.ImageObserver observer) {
         if (Beam != null) {
@@ -71,6 +68,7 @@ public class PlasmaBeams {
             g2d.rotate(-screenRotation, centerX, centerY);
         }
     }
+    @Deprecated
     public PlasmaBeams setPosition(int x, int y, double radians){
         this.pose= new Pose(x, y, radians);
         return this;
@@ -96,5 +94,6 @@ public class PlasmaBeams {
         }
 
     }
+    public static volatile double spawnSpeed= 500;
 
 }
