@@ -12,6 +12,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import game.Hitbox;
 
 
@@ -75,7 +78,7 @@ public class PlasmaBeams {
     }
 
 
-    public static List<PlasmaBeams> beams= new LinkedList<>();
+    public static ConcurrentLinkedDeque<PlasmaBeams> beams= new ConcurrentLinkedDeque<>();
     public static void spawnBeam(Rocketship rocker){
         beams.add(new PlasmaBeams(rocker.getPosition()));
         hitboxes.add(beams.getLast().hitbox);
