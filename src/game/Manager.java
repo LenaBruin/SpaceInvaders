@@ -60,6 +60,20 @@ public class Manager {
                     for(PlasmaBeams a : PlasmaBeams.beams)
                         drawHitbox(g, a.hitbox);
 
+                    g.setColor(Color.WHITE);
+                    g.setFont(new Font("Arial", Font.BOLD, 32));
+                    g.drawString("Score: " + Upgrades.score, 1200, 50);
+                    g.drawString("Money: " + String.format("%.2f",Upgrades.totalMoney), 1200, 100);
+                    g.setColor(Color.GREEN);
+                    g.fillRect(1200, 150, (int)(Rocketship.health/ Rocketship.maxHealth * 200), 50);
+                    g.setColor(Color.WHITE);
+                    g.drawString("Cost: " + String.format("%.2f",Upgrades.upgradeHealthCost), 200, 30);
+                    g.drawString("Cost: " + String.format("%.2f",Upgrades.upgradeRocketDamageCost), 200, 90);
+                    g.drawString("Cost: " + String.format("%.2f",Upgrades.upgradeBeamSpeedCost), 200, 150);
+                    g.drawString("Cost: " + String.format("%.2f",Upgrades.moneyUpgradeGainCost), 200, 210);
+                    g.drawString("Cost: " + String.format("%.2f",Upgrades.spawnSpeedUpgradeCost), 200, 270);
+
+
                 }
              //   Beam.draw(g, this);
             }

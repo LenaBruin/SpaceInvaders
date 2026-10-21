@@ -33,19 +33,19 @@
             gameLayout.add(healthUpgradeButton);
 
             rocketDamageUpgradeButton = new JButton("Upgrade Beam Damage");
-            rocketDamageUpgradeButton.setBounds(210, 0, 200, 50);
+            rocketDamageUpgradeButton.setBounds(0, 60, 200, 50);
             gameLayout.add(rocketDamageUpgradeButton);
 
             beamSpeedUpgradeButton = new JButton("Upgrade Beam Speed");
-            beamSpeedUpgradeButton.setBounds(0, 60, 200, 50);
+            beamSpeedUpgradeButton.setBounds(0, 120, 200, 50);
             gameLayout.add(beamSpeedUpgradeButton);
 
             moneyUpgradeButton= new JButton("Upgrade Money Gain");
-            moneyUpgradeButton.setBounds(210, 60, 200, 50);
+            moneyUpgradeButton.setBounds(0, 180, 200, 50);
             gameLayout.add(moneyUpgradeButton);
 
             spawnSpedUpgradeButton= new JButton("Upgrade Beam Spawn Speed");
-            spawnSpedUpgradeButton.setBounds(0, 120, 200, 50);
+            spawnSpedUpgradeButton.setBounds(0, 240, 200, 50);
             gameLayout.add(spawnSpedUpgradeButton);
 
             restartButton = new JButton("Restart");

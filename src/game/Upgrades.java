@@ -6,6 +6,8 @@ public class Upgrades {
     public static double totalMoney = 100;
     public static double moreMoney = 5;
 
+    public static int score= 0;
+    public static final int SCORE_INCREASE= 5;
     public static double upgradeHealthCost = 10;
     public static int healthIncrease = 10;
     public static double upgradeHealthCostIncrease = 1.3;
@@ -35,7 +37,6 @@ public class Upgrades {
         if(totalMoney >= upgradeHealthCost) {
             Rocketship.maxHealth += healthIncrease;
             Rocketship.regenerationHealth*= 1.3;
-            Rocketship.regenerationTime/=1.5;
             totalMoney -= upgradeHealthCost;
             upgradeHealthCost *= upgradeHealthCostIncrease;
         }
@@ -73,5 +74,8 @@ public class Upgrades {
             totalMoney-= spawnSpeedUpgradeCost;
             spawnSpeedUpgradeCost *= spawnSpeedUpgradeCostIncrease;
         }
+    }
+    public static synchronized void increaseScore(){
+        score+= SCORE_INCREASE;
     }
 }

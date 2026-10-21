@@ -22,7 +22,7 @@ public class PlasmaBeams {
     ElapsedTime timer;
     public static List<Hitbox> hitboxes= new LinkedList<>();
     public Hitbox hitbox;
-    public static double damage= 33;
+    public static double damage= 35;
     public PlasmaBeams(Pose pose){
 
         timer= new ElapsedTime();

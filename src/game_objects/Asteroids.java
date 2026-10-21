@@ -73,8 +73,10 @@ public class Asteroids {
                 if (a.hitbox.collidesWith(beam.hitbox)) {
                     a.takeDamage();
                     beamIt.remove();
-                    if (a.health <= 0)
+                    if (a.health <= 0) {
                         Upgrades.moneyIncrease();
+                        Upgrades.increaseScore();
+                    }
                     break;
                 }
             }
@@ -90,14 +92,13 @@ public class Asteroids {
                     asteroid.pose.getNormalizedAngle()));
 
 
-
-
         }
         handleBeamCollisions();
         asteroids.removeIf(a ->
                 a.getX() < -despawnMargin || a.getY() < -despawnMargin ||
                         a.getX() > width + despawnMargin || a.getY() > height + despawnMargin
                         || a.health<= 0);
+
     }
     @Deprecated
     public Pose getPosition(){
