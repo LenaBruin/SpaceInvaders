@@ -68,10 +68,9 @@ public class Upgrades {
     }
 
 
-    public synchronized static void upgradeBeamSpeed() {
-            if (upgradeBeamSpeedCost >= totalMoney) {
+    public  static void upgradeBeamSpeed() {
+            if (trySpend(upgradeBeamSpeedCost)) {
                 beamSpeed += beamSpeedIncrease;
-                totalMoney -= upgradeBeamSpeedCost;
                 upgradeBeamSpeedCost *= upgradeBeamSpeedCostIncrease;
             }
 
