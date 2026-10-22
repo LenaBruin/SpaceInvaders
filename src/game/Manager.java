@@ -54,11 +54,11 @@ public class Manager {
                     }
                     PlasmaBeams.drawAll(g, this);
                     Asteroids.drawAll(g, this);
-                    drawHitbox(g, Rocketship.hitbox);
-                    for(Asteroids a : Asteroids.asteroids)
-                        drawHitbox(g, a.hitbox);
-                    for(PlasmaBeams a : PlasmaBeams.beams)
-                        drawHitbox(g, a.hitbox);
+//                    drawHitbox(g, Rocketship.hitbox);
+//                    for(Asteroids a : Asteroids.asteroids)
+//                        drawHitbox(g, a.hitbox);
+//                    for(PlasmaBeams a : PlasmaBeams.beams)
+//                        drawHitbox(g, a.hitbox);
 
                     g.setColor(Color.WHITE);
                     g.setFont(new Font("Arial", Font.BOLD, 32));

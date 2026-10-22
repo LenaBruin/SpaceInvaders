@@ -2,6 +2,9 @@ package game;
 import game_objects.PlasmaBeams;
 import game_objects.Rocketship;
 
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 public class Upgrades {
     public static double totalMoney = 100;
     public static double moreMoney = 5;
@@ -33,26 +36,39 @@ public class Upgrades {
         totalMoney = totalMoney + moreMoney;
     }
 
+    static final Lock moneyLock= new ReentrantLock();
     public static void upgradeHealth() {
-        if(totalMoney >= upgradeHealthCost) {
+        if(trySpend(upgradeHealthCost)) {
             Rocketship.maxHealth += healthIncrease;
             Rocketship.regenerationHealth*= 1.3;
-            totalMoney -= upgradeHealthCost;
             upgradeHealthCost *= upgradeHealthCostIncrease;
         }
     }
 
+    public static boolean trySpend(double amount){
+        moneyLock.lock();
+        try {
+            if(totalMoney>= amount) {
+                totalMoney -= amount;
+                return true;
+            }
+            return false;
+
+        }
+        finally {
+            moneyLock.unlock();
+        }
+    }
     public static void upgradeRocketDamage() {
-        if(totalMoney >= upgradeRocketDamageCost) {
+        if(trySpend(upgradeRocketDamageCost)) {
             PlasmaBeams.damage+= rocketDamageIncrease;
-            totalMoney -= upgradeRocketDamageCost;
             upgradeRocketDamageCost *= upgradeRocketDamageCostIncrease;
         }
 
     }
 
     public static void upgradeBeamSpeed() {
-        if(totalMoney >= upgradeBeamSpeedCost) {
+        if(trySpend(upgradeBeamSpeedCost)) {
             beamSpeed += beamSpeedIncrease;
             totalMoney -= upgradeBeamSpeedCost;
             upgradeBeamSpeedCost *= upgradeBeamSpeedCostIncrease;
@@ -61,17 +77,15 @@ public class Upgrades {
 
     }
     public static void upgradeMoneyGain(){
-        if(totalMoney >= moneyUpgradeGainCost){
+        if(trySpend(moneyUpgradeGainCost)){
             moreMoney*= moneyGainIncrease;
-            totalMoney-= moneyUpgradeGainCost;
             moneyUpgradeGainCost *= moneyUpgradeCostIncrease;
         }
     }
 
     public static synchronized void upgradeSpawnSpeed(){
-        if(totalMoney >= spawnSpeedUpgradeCost && PlasmaBeams.spawnSpeed> 20){
+        if(PlasmaBeams.spawnSpeed> 20 && trySpend(spawnSpeedUpgradeCost)){
             PlasmaBeams.spawnSpeed/= spawnSpeedIncrease;
-            totalMoney-= spawnSpeedUpgradeCost;
             spawnSpeedUpgradeCost *= spawnSpeedUpgradeCostIncrease;
         }
     }
