@@ -67,13 +67,13 @@ public class Upgrades {
 
     }
 
-    public static void upgradeBeamSpeed() {
-        if(trySpend(upgradeBeamSpeedCost)) {
-            beamSpeed += beamSpeedIncrease;
-            totalMoney -= upgradeBeamSpeedCost;
-            upgradeBeamSpeedCost *= upgradeBeamSpeedCostIncrease;
-        }
 
+    public synchronized static void upgradeBeamSpeed() {
+            if (upgradeBeamSpeedCost >= totalMoney) {
+                beamSpeed += beamSpeedIncrease;
+                totalMoney -= upgradeBeamSpeedCost;
+                upgradeBeamSpeedCost *= upgradeBeamSpeedCostIncrease;
+            }
 
     }
     public static void upgradeMoneyGain(){
@@ -84,8 +84,9 @@ public class Upgrades {
     }
 
     public static synchronized void upgradeSpawnSpeed(){
-        if(PlasmaBeams.spawnSpeed> 20 && trySpend(spawnSpeedUpgradeCost)){
+        if(totalMoney >= spawnSpeedUpgradeCost && PlasmaBeams.spawnSpeed> 20){
             PlasmaBeams.spawnSpeed/= spawnSpeedIncrease;
+            totalMoney-= spawnSpeedUpgradeCost;
             spawnSpeedUpgradeCost *= spawnSpeedUpgradeCostIncrease;
         }
     }
