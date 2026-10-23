@@ -11,4 +11,4 @@ Running the application.
 4. Run the file
 
 Any required setup or dependencies.
-No additional setup is required. Files depend on each other so editing or moving files will cause issues.
+1. No additional setup is required. Files depend on each other so editing or moving files will cause issues.
